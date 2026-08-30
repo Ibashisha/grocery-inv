@@ -475,3 +475,786 @@ Advanced Features
 ```
 
 The goal is to have a **fully functional inventory management system before beginning mobile development**, so the mobile application becomes another client for an already-established system rather than duplicating the core business logic.
+
+###### ------------------------------------------------------------------
+
+###### ------------------------------------------------------------------
+
+###### ------------------------- U I ------------------------------------
+
+###### ------------------------------------------------------------------
+
+Design a complete, modern UI/UX system for a web-based **Grocery Store Inventory Management System**.
+
+## Product Context
+
+The application is designed for small and medium-sized grocery stores. It allows store owners and staff to manage products, categories, inventory, stock movements, purchases, and reports.
+
+The application will initially be a **desktop-first web application**, but the design should also be responsive and work well on tablets.
+
+A mobile application will be developed in a later stage using the same backend and database, so the web UI should establish a clear and reusable design system.
+
+The application should feel:
+
+- Clean
+- Modern
+- Practical
+- Professional
+- Friendly
+- Easy to learn
+- Fast to navigate
+- Suitable for everyday store operations
+
+Avoid making it look like a corporate enterprise ERP. It should feel like a polished SaaS product designed specifically for small grocery businesses.
+
+---
+
+# Design Direction
+
+Use a clean, minimal dashboard aesthetic with:
+
+- Light background
+- Clear visual hierarchy
+- Generous spacing
+- Rounded cards and controls
+- Subtle borders and shadows
+- Highly readable typography
+- Clear status indicators
+- Simple icons
+- Consistent spacing
+- Accessible contrast
+
+Use a restrained color palette.
+
+The primary brand color should be a fresh green associated with groceries, freshness, and inventory.
+
+Use neutral colors for most of the interface and reserve stronger colors for:
+
+- Success
+- Warning
+- Error
+- Low stock
+- Out of stock
+- Important actions
+
+Do not overuse bright colors.
+
+The interface should prioritize usability over decoration.
+
+---
+
+# Global Layout
+
+Use a standard application layout:
+
+┌─────────────────────────────────────────────────────────────┐
+│ Logo / Store Name Search Notifications │
+├───────────────┬─────────────────────────────────────────────┤
+│ │ │
+│ Dashboard │ │
+│ Products │ │
+│ Categories │ Main Content │
+│ Inventory │ │
+│ Purchases │ │
+│ Reports │ │
+│ │ │
+│ │ │
+│ Settings │ │
+│ │ │
+│ User Profile │ │
+└───────────────┴─────────────────────────────────────────────┘
+
+Use a persistent left sidebar on desktop.
+
+The sidebar should be collapsible.
+
+On smaller screens, convert the sidebar into a mobile/tablet navigation pattern.
+
+---
+
+# Brand / Header
+
+Create a simple placeholder brand identity.
+
+Use the name:
+
+**Grocin**
+
+The logo should be simple and modern, potentially incorporating a grocery basket, shopping bag, leaf, or abstract inventory symbol.
+
+The header should contain:
+
+- Store name
+- Global search
+- Notification icon
+- User profile
+- Optional quick-add button
+
+---
+
+# Screen 1 — Dashboard
+
+Create the main inventory dashboard.
+
+Header:
+
+**Dashboard**
+
+Subtitle:
+
+"Overview of your store inventory"
+
+Include summary cards:
+
+1. Total Products
+2. Low Stock
+3. Out of Stock
+4. Inventory Value
+
+Example:
+
+Total Products
+248
+
+Low Stock
+12
+
+Out of Stock
+4
+
+Inventory Value
+₹1,42,500
+
+Below the cards, create:
+
+### Low Stock Products
+
+A table showing:
+
+- Product
+- Category
+- Current Stock
+- Minimum Stock
+- Status
+- Action
+
+Example:
+
+Rice 5kg | Rice & Grains | 4 | 10 | Low Stock | View
+
+Milk 1L | Dairy | 6 | 15 | Low Stock | View
+
+Sugar 1kg | Grocery | 3 | 8 | Low Stock | View
+
+### Recent Stock Movements
+
+Show:
+
+- Product
+- Movement type
+- Quantity
+- Date
+- User
+
+Examples:
+
+Rice 5kg | Purchase | +50 | Today
+
+Milk 1L | Sale | -5 | Today
+
+Sugar 1kg | Adjustment | -2 | Yesterday
+
+Add a "View All" action.
+
+---
+
+# Screen 2 — Products
+
+Create a complete product management page.
+
+Header:
+
+**Products**
+
+Primary action:
+
+**+ Add Product**
+
+Include:
+
+- Search bar
+- Category filter
+- Stock status filter
+- Active/inactive filter
+- Sort control
+
+Product table:
+
+| Product | SKU | Category | Stock | Price | Status | Actions |
+
+Example products:
+
+Rice 5kg
+RICE-5KG-001
+Rice & Grains
+25
+₹320
+In Stock
+
+Milk 1L
+MILK-1L-001
+Dairy
+4
+₹65
+Low Stock
+
+Sugar 1kg
+SUGAR-1KG-001
+Grocery
+0
+₹55
+Out of Stock
+
+Use status badges.
+
+Provide row actions such as:
+
+- View
+- Edit
+- Adjust Stock
+- Deactivate
+
+---
+
+# Screen 3 — Add Product
+
+Create a clean product creation form.
+
+Title:
+
+**Add Product**
+
+Organize the form into logical sections.
+
+### Basic Information
+
+- Product Name
+- SKU
+- Barcode
+- Brand
+- Category
+
+### Pricing
+
+- Cost Price
+- Selling Price
+
+### Inventory
+
+- Unit
+- Initial Stock
+- Minimum Stock
+- Maximum Stock
+
+### Additional Information
+
+- Expiry Date
+- Product Status
+
+Buttons:
+
+**Cancel**
+
+**Save Product**
+
+The form should clearly indicate required fields.
+
+Use helpful validation states.
+
+---
+
+# Screen 4 — Product Details
+
+Create a detailed product page.
+
+Header:
+
+**Rice 5kg**
+
+Show:
+
+- Product image placeholder
+- Product name
+- SKU
+- Barcode
+- Category
+- Brand
+- Current stock
+- Stock status
+- Cost price
+- Selling price
+
+Include a prominent stock summary:
+
+Current Stock
+25
+
+Minimum Stock
+10
+
+Status
+In Stock
+
+Then create:
+
+### Stock Movement History
+
+Table:
+
+Date | Type | Quantity | Reference | Notes
+
+Example:
+
+30 Aug | Purchase | +50 | PO-001 | Weekly stock delivery
+
+29 Aug | Sale | -10 | SALE-105 | Customer purchase
+
+28 Aug | Adjustment | -2 | ADJ-001 | Physical count
+
+Actions:
+
+- Edit Product
+- Adjust Stock
+- Add Stock
+
+---
+
+# Screen 5 — Inventory / Stock Management
+
+Create a dedicated inventory page.
+
+Header:
+
+**Inventory**
+
+Include quick actions:
+
+**Receive Stock**
+
+**Adjust Stock**
+
+**Record Damage**
+
+**Record Expiry**
+
+Show inventory table:
+
+Product | Current Stock | Minimum | Maximum | Status
+
+Provide filters for:
+
+- Category
+- Stock status
+- Expiry
+- Recently updated
+
+Use visual indicators for low and out-of-stock products.
+
+---
+
+# Screen 6 — Receive Stock
+
+Create a stock receiving workflow.
+
+Title:
+
+**Receive Stock**
+
+Form:
+
+Product
+[Search/select product]
+
+Quantity
+[Input]
+
+Supplier
+[Select supplier]
+
+Cost Price
+[Input]
+
+Reference
+[Input]
+
+Notes
+[Textarea]
+
+Show a preview:
+
+Product: Rice 5kg
+
+Current Stock: 25
+
+Quantity Received: +50
+
+New Stock: 75
+
+Primary button:
+
+**Receive Stock**
+
+The interface should make the stock change extremely clear before confirmation.
+
+---
+
+# Screen 7 — Stock Adjustment
+
+Create a stock adjustment interface.
+
+Title:
+
+**Adjust Stock**
+
+Show:
+
+Product
+
+Current System Stock
+
+Physical Stock
+
+Difference
+
+Reason
+
+Example:
+
+System Stock: 50
+
+Physical Stock: 47
+
+Difference: -3
+
+Reason:
+"Physical stock count"
+
+Primary action:
+
+**Confirm Adjustment**
+
+Make potentially destructive inventory changes visually clear and require confirmation.
+
+---
+
+# Screen 8 — Categories
+
+Create a category management page.
+
+Header:
+
+**Categories**
+
+Primary action:
+
+**+ Add Category**
+
+Display categories as clean cards or a table.
+
+Examples:
+
+Rice & Grains
+32 products
+
+Beverages
+45 products
+
+Snacks
+51 products
+
+Dairy
+28 products
+
+Each category should have:
+
+- Name
+- Description
+- Number of products
+- Edit action
+- Delete/deactivate action
+
+---
+
+# Screen 9 — Stock Movement History
+
+Create a page showing the complete inventory audit trail.
+
+Header:
+
+**Stock Movements**
+
+Include filters:
+
+- Product
+- Movement Type
+- Date Range
+- User
+
+Movement types:
+
+PURCHASE
+SALE
+RETURN
+DAMAGE
+EXPIRY
+ADJUSTMENT
+
+Table:
+
+Date | Product | Type | Quantity | Reference | User
+
+Use positive/negative visual indicators for quantities.
+
+---
+
+# Screen 10 — Reports
+
+Create a reports dashboard.
+
+Title:
+
+**Reports**
+
+Create report cards:
+
+- Current Inventory
+- Low Stock
+- Out of Stock
+- Inventory Valuation
+- Stock Movements
+- Expiring Products
+
+Include date filters where appropriate.
+
+Provide export actions:
+
+**Export CSV**
+
+**Export Excel**
+
+---
+
+# Screen 11 — Settings
+
+Create a simple settings page.
+
+Sections:
+
+### Store Information
+
+- Store Name
+- Address
+- Phone
+- Email
+
+### Inventory Settings
+
+- Default minimum stock
+- Allow negative stock
+- Default unit
+
+### User Settings
+
+- Profile
+- Password
+- Notifications
+
+---
+
+# Responsive Design
+
+Design desktop and tablet versions.
+
+The application must remain usable on smaller screens.
+
+For smaller screens:
+
+- Collapse sidebar
+- Use responsive tables
+- Convert complex tables into cards when necessary
+- Keep primary actions easily accessible
+- Make forms single-column
+- Maintain readable font sizes
+- Avoid horizontal scrolling wherever possible
+
+---
+
+# Component Design System
+
+Create reusable UI components for:
+
+### Buttons
+
+- Primary
+- Secondary
+- Destructive
+- Ghost
+- Icon
+
+### Inputs
+
+- Text
+- Number
+- Search
+- Select
+- Date
+- Textarea
+
+### Status Badges
+
+- In Stock
+- Low Stock
+- Out of Stock
+- Active
+- Inactive
+
+### Cards
+
+- Summary cards
+- Product cards
+- Category cards
+- Report cards
+
+### Tables
+
+- Sortable columns
+- Pagination
+- Row actions
+- Empty states
+- Loading states
+
+### Feedback
+
+- Success toast
+- Error toast
+- Warning alert
+- Confirmation dialog
+
+---
+
+# Important UX Requirements
+
+The application will be used frequently by store staff, so prioritize speed and simplicity.
+
+Users should be able to:
+
+- Find a product quickly
+- See current stock immediately
+- Add stock with minimal clicks
+- Adjust stock safely
+- Identify low-stock items instantly
+- Search by barcode/SKU/product name
+- Understand why stock changed
+
+Avoid unnecessary animations.
+
+Avoid excessive popups.
+
+Avoid complicated navigation.
+
+Primary workflows should require as few steps as reasonably possible.
+
+---
+
+# Empty States
+
+Design empty states for:
+
+- No products
+- No categories
+- No stock movements
+- No low-stock products
+- No search results
+- No reports
+
+Example:
+
+"No products yet"
+
+"Add your first product to start managing your inventory."
+
+Button:
+
+"+ Add Product"
+
+---
+
+# Loading States
+
+Design loading states for:
+
+- Dashboard
+- Product table
+- Product details
+- Stock movements
+- Reports
+
+Use skeleton loaders rather than blocking the entire page.
+
+---
+
+# Error States
+
+Create clear error states for:
+
+- Database errors
+- Failed product creation
+- Failed stock update
+- Invalid form input
+- Network failure
+
+Errors should explain what happened and what the user can do next.
+
+---
+
+# Accessibility
+
+The UI should follow good accessibility practices.
+
+Ensure:
+
+- Sufficient color contrast
+- Clear focus states
+- Keyboard navigation
+- Descriptive labels
+- Accessible buttons
+- Icons paired with labels where necessary
+- Status should not rely on color alone
+
+---
+
+# Design Deliverables
+
+Create:
+
+1. Complete dashboard
+2. Product list
+3. Add product form
+4. Product details
+5. Inventory page
+6. Receive stock form
+7. Stock adjustment form
+8. Categories
+9. Stock movement history
+10. Reports
+11. Settings
+12. Responsive/tablet versions
+13. Reusable component/design system
+14. Empty states
+15. Loading states
+16. Error states
+17. Confirmation dialogs
+
+Maintain consistent spacing, typography, colors, components, and interaction patterns across all screens.
+
+The final design should be realistic enough to implement directly in a **Next.js + TypeScript + Tailwind CSS + shadcn/ui** application.
