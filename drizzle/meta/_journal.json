@@ -15,6 +15,13 @@
       "when": 1788074757774,
       "tag": "0001_green_hulk",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788194740187,
+      "tag": "0002_sku-sequence",
+      "breakpoints": true
     }
   ]
 }
