@@ -1,6 +1,7 @@
 "use client";
 
 import { Controller, useForm, useWatch } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
@@ -8,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { createProduct } from "@/app/products/actions";
+import { createProduct, updateProduct } from "@/app/products/actions";
 import {
   Select,
   SelectContent,
@@ -21,27 +22,16 @@ import { UNITS } from "./dummy-data";
 const productSchema = z
   .object({
     name: z.string().min(2, "Product name must be at least 2 characters"),
-
     barcode: z.string().optional(),
-
     brand: z.string().optional(),
-
     categoryId: z.string().min(1, "Category is required"),
-
     unit: z.string().min(1, "Unit is required"),
-
     customUnit: z.string().optional(),
-
     costPrice: z.string().min(1, "Cost price is required"),
-
     sellingPrice: z.string().min(1, "Selling price is required"),
-
-    initialStock: z.string().min(1, "Initial stock is required"),
-
+    initialStock: z.string().optional(),
     minimumStock: z.string().min(1, "Minimum stock is required"),
-
     maximumStock: z.string().optional(),
-
     expiryDate: z.string().optional(),
   })
   .refine((data) => data.unit !== "Other" || !!data.customUnit?.trim(), {
@@ -56,26 +46,71 @@ type ProductFormProps = {
     id: string;
     name: string;
   }[];
+  product?: {
+    id: string;
+    name: string;
+    barcode: string | null;
+    brand: string | null;
+    categoryId: string | null;
+    unit: string;
+    costPrice: string;
+    sellingPrice: string;
+    minimumStock: string;
+    maximumStock: string | null;
+    expiryDate: string | null;
+  };
 };
 
-export function ProductForm({ categories }: ProductFormProps) {
+export function ProductForm({ categories, product }: ProductFormProps) {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
     control,
-    // setValue,
+    setError,
     formState: { errors },
   } = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
     defaultValues: {
-      unit: "",
-      customUnit: "",
-      categoryId: "",
+      name: product?.name ?? "",
+      barcode: product?.barcode ?? "",
+      brand: product?.brand ?? "",
+      categoryId: product?.categoryId ?? "",
+      unit: UNITS.some((unit) => unit.value === product?.unit)
+        ? (product?.unit ?? "")
+        : "Other",
+      customUnit: UNITS.some((unit) => unit.value === product?.unit)
+        ? ""
+        : (product?.unit ?? ""),
+      costPrice: product?.costPrice ?? "",
+      sellingPrice: product?.sellingPrice ?? "",
+      initialStock: "",
+      minimumStock: product?.minimumStock ?? "",
+      maximumStock: product?.maximumStock ?? "",
+      expiryDate: product?.expiryDate ?? "",
     },
   });
 
   const onSubmit = async (data: ProductFormValues) => {
-    await createProduct(data);
+    if (product) {
+      await updateProduct(product.id, data);
+    } else {
+      if (!data.initialStock) {
+        setError("initialStock", {
+          type: "manual",
+          message: "Initial stock is required",
+        });
+        return;
+      }
+
+      await createProduct({
+        ...data,
+        initialStock: data.initialStock,
+      });
+    }
+
+    router.push("/products");
   };
 
   const selectedUnit = useWatch({
@@ -182,7 +217,6 @@ export function ProductForm({ categories }: ProductFormProps) {
 
             <Input
               id="costPrice"
-              step="0.01"
               placeholder="290.00"
               {...register("costPrice")}
             />
@@ -199,7 +233,6 @@ export function ProductForm({ categories }: ProductFormProps) {
 
             <Input
               id="sellingPrice"
-              step="0.01"
               placeholder="320.00"
               {...register("sellingPrice")}
             />
@@ -282,31 +315,30 @@ export function ProductForm({ categories }: ProductFormProps) {
 
           {/* Initial + Minimum Stock */}
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="initialStock">Initial Stock</Label>
+            {!product && (
+              <div className="space-y-2">
+                <Label htmlFor="initialStock">Initial Stock</Label>
 
-              <Input
-                id="initialStock"
-                type="number"
-                step="0.001"
-                placeholder="25"
-                {...register("initialStock")}
-              />
+                <Input
+                  id="initialStock"
+                  type="number"
+                  step="0.001"
+                  {...register("initialStock")}
+                />
 
-              {errors.initialStock && (
-                <p className="text-sm text-destructive">
-                  {errors.initialStock.message}
-                </p>
-              )}
-            </div>
+                {errors.initialStock && (
+                  <p className="text-sm text-destructive">
+                    {errors.initialStock.message}
+                  </p>
+                )}
+              </div>
+            )}
 
             <div className="space-y-2">
               <Label htmlFor="minimumStock">Minimum Stock</Label>
 
               <Input
                 id="minimumStock"
-                type="number"
-                step="0.001"
                 placeholder="10"
                 {...register("minimumStock")}
               />
@@ -325,8 +357,6 @@ export function ProductForm({ categories }: ProductFormProps) {
 
             <Input
               id="maximumStock"
-              type="number"
-              step="0.001"
               placeholder="100"
               {...register("maximumStock")}
             />
@@ -343,11 +373,17 @@ export function ProductForm({ categories }: ProductFormProps) {
 
       {/* Actions */}
       <div className="flex justify-end gap-3">
-        <Button type="button" variant="outline">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => router.push("/products")}
+        >
           Cancel
         </Button>
 
-        <Button type="submit">Save Product</Button>
+        <Button type="submit">
+          {product ? "Update Product" : "Save Product"}
+        </Button>
       </div>
     </form>
   );

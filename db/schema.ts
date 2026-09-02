@@ -154,6 +154,11 @@ export const stockMovements = pgTable("stock_movements", {
     scale: 3,
   }).notNull(),
 
+  stockAfter: numeric("stock_after", {
+    precision: 12,
+    scale: 3,
+  }).notNull(),
+
   reference: varchar("reference", {
     length: 100,
   }),
