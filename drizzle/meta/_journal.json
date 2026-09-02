@@ -22,6 +22,13 @@
       "when": 1788194740187,
       "tag": "0002_sku-sequence",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1788349624383,
+      "tag": "0003_living_screwball",
+      "breakpoints": true
     }
   ]
 }

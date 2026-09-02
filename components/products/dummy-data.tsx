@@ -12,3 +12,14 @@ export const UNITS = [
   { value: "Bag", label: "Bag" },
   { value: "Other", label: "Other" },
 ];
+
+export const STOCK_REASONS = [
+  { value: "New Shipment", label: "New Shipment" },
+  { value: "Purchase", label: "Purchase" },
+  { value: "Stock Count Correction", label: "Stock Count Correction" },
+  { value: "Damaged Goods", label: "Damaged Goods" },
+  { value: "Expired Goods", label: "Expired Goods" },
+  { value: "Returned Goods", label: "Returned Goods" },
+  { value: "Sold / Dispensed", label: "Sold / Dispensed" },
+  { value: "Other", label: "Other" },
+];
