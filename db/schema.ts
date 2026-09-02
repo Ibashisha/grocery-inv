@@ -40,9 +40,9 @@ export const categories = pgTable("categories", {
     length: 500,
   }),
 
-  isDeleted: boolean("is_deleted").default(false).notNull(),
-
   isActive: boolean("is_active").default(true).notNull(),
+
+  isDeleted: boolean("is_deleted").default(false).notNull(),
 
   createdAt: timestamp("created_at").defaultNow().notNull(),
 
