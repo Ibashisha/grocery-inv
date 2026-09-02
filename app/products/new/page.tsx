@@ -1,6 +1,19 @@
 import { ProductForm } from "@/components/products/product-form";
 
-export default function NewProductPage() {
+import { db } from "@/db";
+import { categories } from "@/db/schema";
+import { asc, eq } from "drizzle-orm";
+
+export default async function NewProductPage() {
+  const categoryList = await db
+    .select({
+      id: categories.id,
+      name: categories.name,
+    })
+    .from(categories)
+    .where(eq(categories.isActive, true))
+    .orderBy(asc(categories.name));
+
   return (
     <main className="min-h-screen p-8">
       <div className="mx-auto max-w-3xl">
@@ -11,7 +24,7 @@ export default function NewProductPage() {
           </p>
         </div>
 
-        <ProductForm />
+        <ProductForm categories={categoryList} />
       </div>
     </main>
   );

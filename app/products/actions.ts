@@ -11,6 +11,7 @@ export async function createProduct(data: {
   barcode?: string;
   brand?: string;
   unit: string;
+  categoryId: string;
   customUnit?: string;
   costPrice: string;
   sellingPrice: string;
@@ -36,6 +37,7 @@ export async function createProduct(data: {
         sku,
         barcode: data.barcode || null,
         brand: data.brand || null,
+        categoryId: data.categoryId,
         unit,
         costPrice: data.costPrice,
         sellingPrice: data.sellingPrice,

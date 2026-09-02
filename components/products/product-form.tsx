@@ -26,6 +26,8 @@ const productSchema = z
 
     brand: z.string().optional(),
 
+    categoryId: z.string().min(1, "Category is required"),
+
     unit: z.string().min(1, "Unit is required"),
 
     customUnit: z.string().optional(),
@@ -49,7 +51,14 @@ const productSchema = z
 
 type ProductFormValues = z.infer<typeof productSchema>;
 
-export function ProductForm() {
+type ProductFormProps = {
+  categories: {
+    id: string;
+    name: string;
+  }[];
+};
+
+export function ProductForm({ categories }: ProductFormProps) {
   const {
     register,
     handleSubmit,
@@ -61,6 +70,7 @@ export function ProductForm() {
     defaultValues: {
       unit: "",
       customUnit: "",
+      categoryId: "",
     },
   });
 
@@ -114,6 +124,49 @@ export function ProductForm() {
               placeholder="e.g. India Gate"
               {...register("brand")}
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="category">Category</Label>
+
+            <Controller
+              name="categoryId"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  value={field.value}
+                  onValueChange={(value) => {
+                    if (value !== null) {
+                      field.onChange(value);
+                    }
+                  }}
+                >
+                  <SelectTrigger id="category">
+                    <SelectValue placeholder="Select a category">
+                      {
+                        categories.find(
+                          (category) => category.id === field.value,
+                        )?.name
+                      }
+                    </SelectValue>
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    {categories.map((category) => (
+                      <SelectItem key={category.id} value={category.id}>
+                        {category.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+
+            {errors.categoryId && (
+              <p className="text-sm text-destructive">
+                {errors.categoryId.message}
+              </p>
+            )}
           </div>
         </CardContent>
       </Card>
